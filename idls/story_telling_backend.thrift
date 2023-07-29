@@ -7,7 +7,7 @@ struct Pagination {
 
 struct SearchNovelReq {
     1: optional string CustomValue (api.body="custom_value") // 非必填，不传不用于筛选
-    2: optional list<string> Labels (api.body="labels") // 非必填，不传或长度为空不用于筛选
+    2: optional list<string> Tags (api.body="labels") // 非必填，不传或长度为空不用于筛选
     3: optional Pagination pagination (api.body="pagination")
 }
 
@@ -16,12 +16,12 @@ struct SearchNovelItem {
     2: required string CoverUrl (api.body="cover_url") // 封面图url, 这里用编码后的图片文件还是url呢？
     3: required string NovelName (api.body="novel_name") // 小说名字
     4: required string AuthorName (api.body="author_name") // 作者名字
-    5: required list<string> Labels (api.body="labels") // 小说标签
+    5: required list<string> Tags (api.body="tags") // 小说标签
     6: required list<string> Describes (api.body="describes") // 一些七七八八的描述
 }
 
 struct SearchNovelData {
-    1: required SearchNovelItem Items (api.body="items")
+    1: required list<SearchNovelItem> Items (api.body="items")
     2: required i64 Total (api.body="total")
 }
 
@@ -46,10 +46,11 @@ struct GetNovelChapterTitleListReq {
 struct GetNovelChapterTitleItem {
     1: required i64 ID (api.body="id") // 章节id
     2: required string Title (api.body="title") // 章节标题
+    3: required i16 Ind (api.body="ind") // 章节号
 }
 
 struct GetNovelChapterTitleListData {
-    1: required GetNovelChapterTitleItem Items (api.body="items")
+    1: required list<GetNovelChapterTitleItem> Items (api.body="items")
     2: required i64 Total (api.body="total")
 }
 
@@ -64,7 +65,7 @@ struct GetNovelTellingConfigReq {
 }
 
 struct GetNovelTellingConfigData { // 这里应该枚举，枚举值待定
-    1: required list<string> Speed (api.body="speed") // 播放速度
+    1: required list<string> Style (api.body="style") // 风格
     2: required list<string> Timbre (api.body="timbre") // 音色
 }
 
@@ -77,13 +78,14 @@ struct GetNovelTellingConfigResp {
 struct GetChapterDetailReq {
     1: required string NovelID (api.path="novel_id")
     2: required string ChapterID (api.path="chapter_id")
+    3: optional string Style (api.quest="style") // 风格, 不传或错误值使用默认值
+    4: optional string Timbre (api.quest="timbre") // 音色， 不传或错误值使用默认值
 }
 
 struct GetChapterDetailData {
     1: required string Title (api.body="title") // 章节标题
-    2: required string Frontend (api.body="frontend")
-    3: required i64 Duration (api.body="duration") // 音频时长, ms
-    4: required binary Audio (api.body="audio") // 音频，mp3格式，需要decode
+    2: required string FrontendUri (api.body="frontend_uri")
+    3: required binary AudioUri (api.body="audio_uri") // 音频，mp3格式，需要decode
 }
 
 struct GetChapterDetailResp {

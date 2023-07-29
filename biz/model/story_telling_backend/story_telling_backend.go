@@ -212,7 +212,7 @@ type SearchNovelReq struct {
 	// 非必填，不传不用于筛选
 	CustomValue *string `thrift:"CustomValue,1,optional" form:"custom_value" json:"custom_value,omitempty"`
 	// 非必填，不传或长度为空不用于筛选
-	Labels     []string    `thrift:"Labels,2,optional" form:"labels" json:"labels,omitempty"`
+	Tags       []string    `thrift:"Tags,2,optional" form:"labels" json:"labels,omitempty"`
 	Pagination *Pagination `thrift:"pagination,3,optional" form:"pagination" json:"pagination,omitempty"`
 }
 
@@ -229,13 +229,13 @@ func (p *SearchNovelReq) GetCustomValue() (v string) {
 	return *p.CustomValue
 }
 
-var SearchNovelReq_Labels_DEFAULT []string
+var SearchNovelReq_Tags_DEFAULT []string
 
-func (p *SearchNovelReq) GetLabels() (v []string) {
-	if !p.IsSetLabels() {
-		return SearchNovelReq_Labels_DEFAULT
+func (p *SearchNovelReq) GetTags() (v []string) {
+	if !p.IsSetTags() {
+		return SearchNovelReq_Tags_DEFAULT
 	}
-	return p.Labels
+	return p.Tags
 }
 
 var SearchNovelReq_Pagination_DEFAULT *Pagination
@@ -249,7 +249,7 @@ func (p *SearchNovelReq) GetPagination() (v *Pagination) {
 
 var fieldIDToName_SearchNovelReq = map[int16]string{
 	1: "CustomValue",
-	2: "Labels",
+	2: "Tags",
 	3: "pagination",
 }
 
@@ -257,8 +257,8 @@ func (p *SearchNovelReq) IsSetCustomValue() bool {
 	return p.CustomValue != nil
 }
 
-func (p *SearchNovelReq) IsSetLabels() bool {
-	return p.Labels != nil
+func (p *SearchNovelReq) IsSetTags() bool {
+	return p.Tags != nil
 }
 
 func (p *SearchNovelReq) IsSetPagination() bool {
@@ -358,7 +358,7 @@ func (p *SearchNovelReq) ReadField2(iprot thrift.TProtocol) error {
 	if err != nil {
 		return err
 	}
-	p.Labels = make([]string, 0, size)
+	p.Tags = make([]string, 0, size)
 	for i := 0; i < size; i++ {
 		var _elem string
 		if v, err := iprot.ReadString(); err != nil {
@@ -367,7 +367,7 @@ func (p *SearchNovelReq) ReadField2(iprot thrift.TProtocol) error {
 			_elem = v
 		}
 
-		p.Labels = append(p.Labels, _elem)
+		p.Tags = append(p.Tags, _elem)
 	}
 	if err := iprot.ReadListEnd(); err != nil {
 		return err
@@ -440,14 +440,14 @@ WriteFieldEndError:
 }
 
 func (p *SearchNovelReq) writeField2(oprot thrift.TProtocol) (err error) {
-	if p.IsSetLabels() {
-		if err = oprot.WriteFieldBegin("Labels", thrift.LIST, 2); err != nil {
+	if p.IsSetTags() {
+		if err = oprot.WriteFieldBegin("Tags", thrift.LIST, 2); err != nil {
 			goto WriteFieldBeginError
 		}
-		if err := oprot.WriteListBegin(thrift.STRING, len(p.Labels)); err != nil {
+		if err := oprot.WriteListBegin(thrift.STRING, len(p.Tags)); err != nil {
 			return err
 		}
-		for _, v := range p.Labels {
+		for _, v := range p.Tags {
 			if err := oprot.WriteString(v); err != nil {
 				return err
 			}
@@ -502,7 +502,7 @@ type SearchNovelItem struct {
 	// 作者名字
 	AuthorName string `thrift:"AuthorName,4,required" form:"author_name,required" json:"author_name,required"`
 	// 小说标签
-	Labels []string `thrift:"Labels,5,required" form:"labels,required" json:"labels,required"`
+	Tags []string `thrift:"Tags,5,required" form:"tags,required" json:"tags,required"`
 	// 一些七七八八的描述
 	Describes []string `thrift:"Describes,6,required" form:"describes,required" json:"describes,required"`
 }
@@ -527,8 +527,8 @@ func (p *SearchNovelItem) GetAuthorName() (v string) {
 	return p.AuthorName
 }
 
-func (p *SearchNovelItem) GetLabels() (v []string) {
-	return p.Labels
+func (p *SearchNovelItem) GetTags() (v []string) {
+	return p.Tags
 }
 
 func (p *SearchNovelItem) GetDescribes() (v []string) {
@@ -540,7 +540,7 @@ var fieldIDToName_SearchNovelItem = map[int16]string{
 	2: "CoverUrl",
 	3: "NovelName",
 	4: "AuthorName",
-	5: "Labels",
+	5: "Tags",
 	6: "Describes",
 }
 
@@ -552,7 +552,7 @@ func (p *SearchNovelItem) Read(iprot thrift.TProtocol) (err error) {
 	var issetCoverUrl bool = false
 	var issetNovelName bool = false
 	var issetAuthorName bool = false
-	var issetLabels bool = false
+	var issetTags bool = false
 	var issetDescribes bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
@@ -618,7 +618,7 @@ func (p *SearchNovelItem) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField5(iprot); err != nil {
 					goto ReadFieldError
 				}
-				issetLabels = true
+				issetTags = true
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
@@ -669,7 +669,7 @@ func (p *SearchNovelItem) Read(iprot thrift.TProtocol) (err error) {
 		goto RequiredFieldNotSetError
 	}
 
-	if !issetLabels {
+	if !issetTags {
 		fieldId = 5
 		goto RequiredFieldNotSetError
 	}
@@ -737,7 +737,7 @@ func (p *SearchNovelItem) ReadField5(iprot thrift.TProtocol) error {
 	if err != nil {
 		return err
 	}
-	p.Labels = make([]string, 0, size)
+	p.Tags = make([]string, 0, size)
 	for i := 0; i < size; i++ {
 		var _elem string
 		if v, err := iprot.ReadString(); err != nil {
@@ -746,7 +746,7 @@ func (p *SearchNovelItem) ReadField5(iprot thrift.TProtocol) error {
 			_elem = v
 		}
 
-		p.Labels = append(p.Labels, _elem)
+		p.Tags = append(p.Tags, _elem)
 	}
 	if err := iprot.ReadListEnd(); err != nil {
 		return err
@@ -894,13 +894,13 @@ WriteFieldEndError:
 }
 
 func (p *SearchNovelItem) writeField5(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Labels", thrift.LIST, 5); err != nil {
+	if err = oprot.WriteFieldBegin("Tags", thrift.LIST, 5); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteListBegin(thrift.STRING, len(p.Labels)); err != nil {
+	if err := oprot.WriteListBegin(thrift.STRING, len(p.Tags)); err != nil {
 		return err
 	}
-	for _, v := range p.Labels {
+	for _, v := range p.Tags {
 		if err := oprot.WriteString(v); err != nil {
 			return err
 		}
@@ -951,20 +951,15 @@ func (p *SearchNovelItem) String() string {
 }
 
 type SearchNovelData struct {
-	Items *SearchNovelItem `thrift:"Items,1,required" form:"items,required" json:"items,required"`
-	Total int64            `thrift:"Total,2,required" form:"total,required" json:"total,required"`
+	Items []*SearchNovelItem `thrift:"Items,1,required" form:"items,required" json:"items,required"`
+	Total int64              `thrift:"Total,2,required" form:"total,required" json:"total,required"`
 }
 
 func NewSearchNovelData() *SearchNovelData {
 	return &SearchNovelData{}
 }
 
-var SearchNovelData_Items_DEFAULT *SearchNovelItem
-
-func (p *SearchNovelData) GetItems() (v *SearchNovelItem) {
-	if !p.IsSetItems() {
-		return SearchNovelData_Items_DEFAULT
-	}
+func (p *SearchNovelData) GetItems() (v []*SearchNovelItem) {
 	return p.Items
 }
 
@@ -975,10 +970,6 @@ func (p *SearchNovelData) GetTotal() (v int64) {
 var fieldIDToName_SearchNovelData = map[int16]string{
 	1: "Items",
 	2: "Total",
-}
-
-func (p *SearchNovelData) IsSetItems() bool {
-	return p.Items != nil
 }
 
 func (p *SearchNovelData) Read(iprot thrift.TProtocol) (err error) {
@@ -1003,7 +994,7 @@ func (p *SearchNovelData) Read(iprot thrift.TProtocol) (err error) {
 
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.STRUCT {
+			if fieldTypeId == thrift.LIST {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -1066,8 +1057,20 @@ RequiredFieldNotSetError:
 }
 
 func (p *SearchNovelData) ReadField1(iprot thrift.TProtocol) error {
-	p.Items = NewSearchNovelItem()
-	if err := p.Items.Read(iprot); err != nil {
+	_, size, err := iprot.ReadListBegin()
+	if err != nil {
+		return err
+	}
+	p.Items = make([]*SearchNovelItem, 0, size)
+	for i := 0; i < size; i++ {
+		_elem := NewSearchNovelItem()
+		if err := _elem.Read(iprot); err != nil {
+			return err
+		}
+
+		p.Items = append(p.Items, _elem)
+	}
+	if err := iprot.ReadListEnd(); err != nil {
 		return err
 	}
 	return nil
@@ -1116,10 +1119,18 @@ WriteStructEndError:
 }
 
 func (p *SearchNovelData) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Items", thrift.STRUCT, 1); err != nil {
+	if err = oprot.WriteFieldBegin("Items", thrift.LIST, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := p.Items.Write(oprot); err != nil {
+	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.Items)); err != nil {
+		return err
+	}
+	for _, v := range p.Items {
+		if err := v.Write(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteListEnd(); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -1830,6 +1841,8 @@ type GetNovelChapterTitleItem struct {
 	ID int64 `thrift:"ID,1,required" form:"id,required" json:"id,required"`
 	// 章节标题
 	Title string `thrift:"Title,2,required" form:"title,required" json:"title,required"`
+	// 章节号
+	Ind int16 `thrift:"Ind,3,required" form:"ind,required" json:"ind,required"`
 }
 
 func NewGetNovelChapterTitleItem() *GetNovelChapterTitleItem {
@@ -1844,9 +1857,14 @@ func (p *GetNovelChapterTitleItem) GetTitle() (v string) {
 	return p.Title
 }
 
+func (p *GetNovelChapterTitleItem) GetInd() (v int16) {
+	return p.Ind
+}
+
 var fieldIDToName_GetNovelChapterTitleItem = map[int16]string{
 	1: "ID",
 	2: "Title",
+	3: "Ind",
 }
 
 func (p *GetNovelChapterTitleItem) Read(iprot thrift.TProtocol) (err error) {
@@ -1855,6 +1873,7 @@ func (p *GetNovelChapterTitleItem) Read(iprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	var issetID bool = false
 	var issetTitle bool = false
+	var issetInd bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
 		goto ReadStructBeginError
@@ -1892,6 +1911,17 @@ func (p *GetNovelChapterTitleItem) Read(iprot thrift.TProtocol) (err error) {
 					goto SkipFieldError
 				}
 			}
+		case 3:
+			if fieldTypeId == thrift.I16 {
+				if err = p.ReadField3(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetInd = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
 		default:
 			if err = iprot.Skip(fieldTypeId); err != nil {
 				goto SkipFieldError
@@ -1913,6 +1943,11 @@ func (p *GetNovelChapterTitleItem) Read(iprot thrift.TProtocol) (err error) {
 
 	if !issetTitle {
 		fieldId = 2
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetInd {
+		fieldId = 3
 		goto RequiredFieldNotSetError
 	}
 	return nil
@@ -1951,6 +1986,15 @@ func (p *GetNovelChapterTitleItem) ReadField2(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *GetNovelChapterTitleItem) ReadField3(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI16(); err != nil {
+		return err
+	} else {
+		p.Ind = v
+	}
+	return nil
+}
+
 func (p *GetNovelChapterTitleItem) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	if err = oprot.WriteStructBegin("GetNovelChapterTitleItem"); err != nil {
@@ -1963,6 +2007,10 @@ func (p *GetNovelChapterTitleItem) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField2(oprot); err != nil {
 			fieldId = 2
+			goto WriteFieldError
+		}
+		if err = p.writeField3(oprot); err != nil {
+			fieldId = 3
 			goto WriteFieldError
 		}
 
@@ -2018,6 +2066,23 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
 }
 
+func (p *GetNovelChapterTitleItem) writeField3(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("Ind", thrift.I16, 3); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI16(p.Ind); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
+}
+
 func (p *GetNovelChapterTitleItem) String() string {
 	if p == nil {
 		return "<nil>"
@@ -2026,20 +2091,15 @@ func (p *GetNovelChapterTitleItem) String() string {
 }
 
 type GetNovelChapterTitleListData struct {
-	Items *GetNovelChapterTitleItem `thrift:"Items,1,required" form:"items,required" json:"items,required"`
-	Total int64                     `thrift:"Total,2,required" form:"total,required" json:"total,required"`
+	Items []*GetNovelChapterTitleItem `thrift:"Items,1,required" form:"items,required" json:"items,required"`
+	Total int64                       `thrift:"Total,2,required" form:"total,required" json:"total,required"`
 }
 
 func NewGetNovelChapterTitleListData() *GetNovelChapterTitleListData {
 	return &GetNovelChapterTitleListData{}
 }
 
-var GetNovelChapterTitleListData_Items_DEFAULT *GetNovelChapterTitleItem
-
-func (p *GetNovelChapterTitleListData) GetItems() (v *GetNovelChapterTitleItem) {
-	if !p.IsSetItems() {
-		return GetNovelChapterTitleListData_Items_DEFAULT
-	}
+func (p *GetNovelChapterTitleListData) GetItems() (v []*GetNovelChapterTitleItem) {
 	return p.Items
 }
 
@@ -2050,10 +2110,6 @@ func (p *GetNovelChapterTitleListData) GetTotal() (v int64) {
 var fieldIDToName_GetNovelChapterTitleListData = map[int16]string{
 	1: "Items",
 	2: "Total",
-}
-
-func (p *GetNovelChapterTitleListData) IsSetItems() bool {
-	return p.Items != nil
 }
 
 func (p *GetNovelChapterTitleListData) Read(iprot thrift.TProtocol) (err error) {
@@ -2078,7 +2134,7 @@ func (p *GetNovelChapterTitleListData) Read(iprot thrift.TProtocol) (err error) 
 
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.STRUCT {
+			if fieldTypeId == thrift.LIST {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -2141,8 +2197,20 @@ RequiredFieldNotSetError:
 }
 
 func (p *GetNovelChapterTitleListData) ReadField1(iprot thrift.TProtocol) error {
-	p.Items = NewGetNovelChapterTitleItem()
-	if err := p.Items.Read(iprot); err != nil {
+	_, size, err := iprot.ReadListBegin()
+	if err != nil {
+		return err
+	}
+	p.Items = make([]*GetNovelChapterTitleItem, 0, size)
+	for i := 0; i < size; i++ {
+		_elem := NewGetNovelChapterTitleItem()
+		if err := _elem.Read(iprot); err != nil {
+			return err
+		}
+
+		p.Items = append(p.Items, _elem)
+	}
+	if err := iprot.ReadListEnd(); err != nil {
 		return err
 	}
 	return nil
@@ -2191,10 +2259,18 @@ WriteStructEndError:
 }
 
 func (p *GetNovelChapterTitleListData) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Items", thrift.STRUCT, 1); err != nil {
+	if err = oprot.WriteFieldBegin("Items", thrift.LIST, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := p.Items.Write(oprot); err != nil {
+	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.Items)); err != nil {
+		return err
+	}
+	for _, v := range p.Items {
+		if err := v.Write(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteListEnd(); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -2632,7 +2708,7 @@ func (p *GetNovelTellingConfigReq) String() string {
 
 type GetNovelTellingConfigData struct {
 	// 这里应该枚举，枚举值待定
-	Speed []string `thrift:"Speed,1,required" form:"speed,required" json:"speed,required"`
+	Style []string `thrift:"Style,1,required" form:"style,required" json:"style,required"`
 	// 音色
 	Timbre []string `thrift:"Timbre,2,required" form:"timbre,required" json:"timbre,required"`
 }
@@ -2641,8 +2717,8 @@ func NewGetNovelTellingConfigData() *GetNovelTellingConfigData {
 	return &GetNovelTellingConfigData{}
 }
 
-func (p *GetNovelTellingConfigData) GetSpeed() (v []string) {
-	return p.Speed
+func (p *GetNovelTellingConfigData) GetStyle() (v []string) {
+	return p.Style
 }
 
 func (p *GetNovelTellingConfigData) GetTimbre() (v []string) {
@@ -2650,7 +2726,7 @@ func (p *GetNovelTellingConfigData) GetTimbre() (v []string) {
 }
 
 var fieldIDToName_GetNovelTellingConfigData = map[int16]string{
-	1: "Speed",
+	1: "Style",
 	2: "Timbre",
 }
 
@@ -2658,7 +2734,7 @@ func (p *GetNovelTellingConfigData) Read(iprot thrift.TProtocol) (err error) {
 
 	var fieldTypeId thrift.TType
 	var fieldId int16
-	var issetSpeed bool = false
+	var issetStyle bool = false
 	var issetTimbre bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
@@ -2680,7 +2756,7 @@ func (p *GetNovelTellingConfigData) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
-				issetSpeed = true
+				issetStyle = true
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
@@ -2711,7 +2787,7 @@ func (p *GetNovelTellingConfigData) Read(iprot thrift.TProtocol) (err error) {
 		goto ReadStructEndError
 	}
 
-	if !issetSpeed {
+	if !issetStyle {
 		fieldId = 1
 		goto RequiredFieldNotSetError
 	}
@@ -2743,7 +2819,7 @@ func (p *GetNovelTellingConfigData) ReadField1(iprot thrift.TProtocol) error {
 	if err != nil {
 		return err
 	}
-	p.Speed = make([]string, 0, size)
+	p.Style = make([]string, 0, size)
 	for i := 0; i < size; i++ {
 		var _elem string
 		if v, err := iprot.ReadString(); err != nil {
@@ -2752,7 +2828,7 @@ func (p *GetNovelTellingConfigData) ReadField1(iprot thrift.TProtocol) error {
 			_elem = v
 		}
 
-		p.Speed = append(p.Speed, _elem)
+		p.Style = append(p.Style, _elem)
 	}
 	if err := iprot.ReadListEnd(); err != nil {
 		return err
@@ -2816,13 +2892,13 @@ WriteStructEndError:
 }
 
 func (p *GetNovelTellingConfigData) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Speed", thrift.LIST, 1); err != nil {
+	if err = oprot.WriteFieldBegin("Style", thrift.LIST, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteListBegin(thrift.STRING, len(p.Speed)); err != nil {
+	if err := oprot.WriteListBegin(thrift.STRING, len(p.Style)); err != nil {
 		return err
 	}
-	for _, v := range p.Speed {
+	for _, v := range p.Style {
 		if err := oprot.WriteString(v); err != nil {
 			return err
 		}
@@ -3129,6 +3205,10 @@ func (p *GetNovelTellingConfigResp) String() string {
 type GetChapterDetailReq struct {
 	NovelID   string `thrift:"NovelID,1,required" json:"NovelID,required" path:"novel_id,required"`
 	ChapterID string `thrift:"ChapterID,2,required" json:"ChapterID,required" path:"chapter_id,required"`
+	// 风格, 不传或错误值使用默认值
+	Style *string `thrift:"Style,3,optional" form:"Style" json:"Style,omitempty" query:"Style"`
+	// 音色， 不传或错误值使用默认值
+	Timbre *string `thrift:"Timbre,4,optional" form:"Timbre" json:"Timbre,omitempty" query:"Timbre"`
 }
 
 func NewGetChapterDetailReq() *GetChapterDetailReq {
@@ -3143,9 +3223,37 @@ func (p *GetChapterDetailReq) GetChapterID() (v string) {
 	return p.ChapterID
 }
 
+var GetChapterDetailReq_Style_DEFAULT string
+
+func (p *GetChapterDetailReq) GetStyle() (v string) {
+	if !p.IsSetStyle() {
+		return GetChapterDetailReq_Style_DEFAULT
+	}
+	return *p.Style
+}
+
+var GetChapterDetailReq_Timbre_DEFAULT string
+
+func (p *GetChapterDetailReq) GetTimbre() (v string) {
+	if !p.IsSetTimbre() {
+		return GetChapterDetailReq_Timbre_DEFAULT
+	}
+	return *p.Timbre
+}
+
 var fieldIDToName_GetChapterDetailReq = map[int16]string{
 	1: "NovelID",
 	2: "ChapterID",
+	3: "Style",
+	4: "Timbre",
+}
+
+func (p *GetChapterDetailReq) IsSetStyle() bool {
+	return p.Style != nil
+}
+
+func (p *GetChapterDetailReq) IsSetTimbre() bool {
+	return p.Timbre != nil
 }
 
 func (p *GetChapterDetailReq) Read(iprot thrift.TProtocol) (err error) {
@@ -3186,6 +3294,26 @@ func (p *GetChapterDetailReq) Read(iprot thrift.TProtocol) (err error) {
 					goto ReadFieldError
 				}
 				issetChapterID = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 3:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField3(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 4:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField4(iprot); err != nil {
+					goto ReadFieldError
+				}
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
@@ -3250,6 +3378,24 @@ func (p *GetChapterDetailReq) ReadField2(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *GetChapterDetailReq) ReadField3(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.Style = &v
+	}
+	return nil
+}
+
+func (p *GetChapterDetailReq) ReadField4(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.Timbre = &v
+	}
+	return nil
+}
+
 func (p *GetChapterDetailReq) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	if err = oprot.WriteStructBegin("GetChapterDetailReq"); err != nil {
@@ -3262,6 +3408,14 @@ func (p *GetChapterDetailReq) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField2(oprot); err != nil {
 			fieldId = 2
+			goto WriteFieldError
+		}
+		if err = p.writeField3(oprot); err != nil {
+			fieldId = 3
+			goto WriteFieldError
+		}
+		if err = p.writeField4(oprot); err != nil {
+			fieldId = 4
 			goto WriteFieldError
 		}
 
@@ -3317,6 +3471,44 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
 }
 
+func (p *GetChapterDetailReq) writeField3(oprot thrift.TProtocol) (err error) {
+	if p.IsSetStyle() {
+		if err = oprot.WriteFieldBegin("Style", thrift.STRING, 3); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := oprot.WriteString(*p.Style); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
+}
+
+func (p *GetChapterDetailReq) writeField4(oprot thrift.TProtocol) (err error) {
+	if p.IsSetTimbre() {
+		if err = oprot.WriteFieldBegin("Timbre", thrift.STRING, 4); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := oprot.WriteString(*p.Timbre); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
+}
+
 func (p *GetChapterDetailReq) String() string {
 	if p == nil {
 		return "<nil>"
@@ -3326,12 +3518,10 @@ func (p *GetChapterDetailReq) String() string {
 
 type GetChapterDetailData struct {
 	// 章节标题
-	Title    string `thrift:"Title,1,required" form:"title,required" json:"title,required"`
-	Frontend string `thrift:"Frontend,2,required" form:"frontend,required" json:"frontend,required"`
-	// 音频时长, ms
-	Duration int64 `thrift:"Duration,3,required" form:"duration,required" json:"duration,required"`
+	Title       string `thrift:"Title,1,required" form:"title,required" json:"title,required"`
+	FrontendUri string `thrift:"FrontendUri,2,required" form:"frontend_uri,required" json:"frontend_uri,required"`
 	// 音频，mp3格式，需要decode
-	Audio []byte `thrift:"Audio,4,required" form:"audio,required" json:"audio,required"`
+	AudioUri []byte `thrift:"AudioUri,3,required" form:"audio_uri,required" json:"audio_uri,required"`
 }
 
 func NewGetChapterDetailData() *GetChapterDetailData {
@@ -3342,23 +3532,18 @@ func (p *GetChapterDetailData) GetTitle() (v string) {
 	return p.Title
 }
 
-func (p *GetChapterDetailData) GetFrontend() (v string) {
-	return p.Frontend
+func (p *GetChapterDetailData) GetFrontendUri() (v string) {
+	return p.FrontendUri
 }
 
-func (p *GetChapterDetailData) GetDuration() (v int64) {
-	return p.Duration
-}
-
-func (p *GetChapterDetailData) GetAudio() (v []byte) {
-	return p.Audio
+func (p *GetChapterDetailData) GetAudioUri() (v []byte) {
+	return p.AudioUri
 }
 
 var fieldIDToName_GetChapterDetailData = map[int16]string{
 	1: "Title",
-	2: "Frontend",
-	3: "Duration",
-	4: "Audio",
+	2: "FrontendUri",
+	3: "AudioUri",
 }
 
 func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
@@ -3366,9 +3551,8 @@ func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
 	var fieldTypeId thrift.TType
 	var fieldId int16
 	var issetTitle bool = false
-	var issetFrontend bool = false
-	var issetDuration bool = false
-	var issetAudio bool = false
+	var issetFrontendUri bool = false
+	var issetAudioUri bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
 		goto ReadStructBeginError
@@ -3400,29 +3584,18 @@ func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
 				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
-				issetFrontend = true
+				issetFrontendUri = true
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
 				}
 			}
 		case 3:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField3(iprot); err != nil {
 					goto ReadFieldError
 				}
-				issetDuration = true
-			} else {
-				if err = iprot.Skip(fieldTypeId); err != nil {
-					goto SkipFieldError
-				}
-			}
-		case 4:
-			if fieldTypeId == thrift.STRING {
-				if err = p.ReadField4(iprot); err != nil {
-					goto ReadFieldError
-				}
-				issetAudio = true
+				issetAudioUri = true
 			} else {
 				if err = iprot.Skip(fieldTypeId); err != nil {
 					goto SkipFieldError
@@ -3447,18 +3620,13 @@ func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
 		goto RequiredFieldNotSetError
 	}
 
-	if !issetFrontend {
+	if !issetFrontendUri {
 		fieldId = 2
 		goto RequiredFieldNotSetError
 	}
 
-	if !issetDuration {
+	if !issetAudioUri {
 		fieldId = 3
-		goto RequiredFieldNotSetError
-	}
-
-	if !issetAudio {
-		fieldId = 4
 		goto RequiredFieldNotSetError
 	}
 	return nil
@@ -3492,25 +3660,16 @@ func (p *GetChapterDetailData) ReadField2(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.Frontend = v
+		p.FrontendUri = v
 	}
 	return nil
 }
 
 func (p *GetChapterDetailData) ReadField3(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadI64(); err != nil {
-		return err
-	} else {
-		p.Duration = v
-	}
-	return nil
-}
-
-func (p *GetChapterDetailData) ReadField4(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadBinary(); err != nil {
 		return err
 	} else {
-		p.Audio = []byte(v)
+		p.AudioUri = []byte(v)
 	}
 	return nil
 }
@@ -3531,10 +3690,6 @@ func (p *GetChapterDetailData) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField3(oprot); err != nil {
 			fieldId = 3
-			goto WriteFieldError
-		}
-		if err = p.writeField4(oprot); err != nil {
-			fieldId = 4
 			goto WriteFieldError
 		}
 
@@ -3574,10 +3729,10 @@ WriteFieldEndError:
 }
 
 func (p *GetChapterDetailData) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Frontend", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("FrontendUri", thrift.STRING, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.Frontend); err != nil {
+	if err := oprot.WriteString(p.FrontendUri); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -3591,10 +3746,10 @@ WriteFieldEndError:
 }
 
 func (p *GetChapterDetailData) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Duration", thrift.I64, 3); err != nil {
+	if err = oprot.WriteFieldBegin("AudioUri", thrift.STRING, 3); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.Duration); err != nil {
+	if err := oprot.WriteBinary([]byte(p.AudioUri)); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -3605,23 +3760,6 @@ WriteFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
 WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
-}
-
-func (p *GetChapterDetailData) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("Audio", thrift.STRING, 4); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteBinary([]byte(p.Audio)); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 4 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
 }
 
 func (p *GetChapterDetailData) String() string {

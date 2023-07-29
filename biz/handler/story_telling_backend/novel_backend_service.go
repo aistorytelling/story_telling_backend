@@ -4,10 +4,11 @@ package story_telling_backend
 
 import (
 	"context"
-
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	story_telling_backend "story_telling_backend/biz/model/story_telling_backend"
+	log "github.com/sirupsen/logrus"
+	"story_telling_backend/biz/model/story_telling_backend"
+	"story_telling_backend/biz/service"
 )
 
 // SearchNovel .
@@ -20,9 +21,15 @@ func SearchNovel(ctx context.Context, c *app.RequestContext) {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
-
 	resp := new(story_telling_backend.SearchNovelResp)
-
+	if resp.Data, err = service.SearchNovel(&req); err != nil {
+		log.WithFields(log.Fields{
+			"interface": "SearchNovel",
+			"err":       err.Error(),
+		}).Error("请求失败")
+		c.String(consts.StatusOK, "请求失败")
+		return
+	}
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -55,6 +62,15 @@ func GetNovelTellingConfig(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(story_telling_backend.GetNovelTellingConfigResp)
 
+	if resp.Data, err = service.GetTellingConfig(&req); err != nil {
+		log.WithFields(log.Fields{
+			"interface": "GetNovelTellingConfig",
+			"err":       err.Error(),
+		}).Error("请求失败")
+		c.String(consts.StatusOK, "请求失败")
+		return
+	}
+
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -71,6 +87,15 @@ func GetNovelChapterTitle(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(story_telling_backend.GetNovelChapterTitleListResp)
 
+	if resp.Data, err = service.GetChapterTitles(&req); err != nil {
+		log.WithFields(log.Fields{
+			"interface": "GetNovelChapterTitle",
+			"err":       err.Error(),
+		}).Error("请求失败")
+		c.String(consts.StatusOK, "请求失败")
+		return
+	}
+
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -86,6 +111,15 @@ func GetChapterDetail(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(story_telling_backend.GetChapterDetailResp)
+
+	if resp.Data, err = service.GetChapterDetail(&req); err != nil {
+		log.WithFields(log.Fields{
+			"interface": "GetNovelChapterTitle",
+			"err":       err.Error(),
+		}).Error("请求失败")
+		c.String(consts.StatusOK, "请求失败")
+		return
+	}
 
 	c.JSON(consts.StatusOK, resp)
 }

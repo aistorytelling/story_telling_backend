@@ -3,12 +3,14 @@
 package main
 
 import (
+	"fmt"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	log "github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 	"os"
 )
 
-func Init() {
+func InitLog() {
 	// Log as JSON instead of the default ASCII formatter.
 	log.SetFormatter(&log.JSONFormatter{})
 
@@ -20,6 +22,21 @@ func Init() {
 	log.SetLevel(log.InfoLevel)
 
 	log.SetReportCaller(true)
+}
+
+func InitConfig() {
+	viper.SetConfigName("config") // name of config file (without extension)
+	viper.SetConfigType("yaml")   // REQUIRED if the config file does not have the extension in the name
+	viper.AddConfigPath("./conf") // optionally look for config in the working directory
+	err := viper.ReadInConfig()   // Find and read the config file
+	if err != nil {               // Handle errors reading the config file
+		panic(fmt.Errorf("fatal error config file: %w", err))
+	}
+}
+
+func Init() {
+	InitLog()
+	InitConfig()
 }
 
 func main() {

@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/huqiyii/facility/conve"
+	"github.com/spf13/viper"
 	"story_telling_backend/biz/db"
 	"story_telling_backend/biz/model/db_model"
 	"story_telling_backend/biz/model/story_telling_backend"
@@ -50,9 +51,9 @@ func GetChapterDetail(req *story_telling_backend.GetChapterDetailReq) (*story_te
 	}
 
 	data := &story_telling_backend.GetChapterDetailData{
-		Title: conve.StringDefault(chapter.ChapterTitle, ""),
-		//Frontend:
-		//Audio:
+		Title:       conve.StringDefault(chapter.ChapterTitle, ""),
+		FrontendUri: viper.GetString("file_host") + conve.StringDefault(chapter.TxtURI, ""),
+		AudioUri:    viper.GetString("file_host") + conve.StringDefault(chapter.AudioURI, ""),
 	}
 	return data, nil
 }

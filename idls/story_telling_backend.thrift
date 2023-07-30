@@ -85,7 +85,7 @@ struct GetChapterDetailReq {
 struct GetChapterDetailData {
     1: required string Title (api.body="title") // 章节标题
     2: required string FrontendUri (api.body="frontend_uri")
-    3: required binary AudioUri (api.body="audio_uri") // 音频，mp3格式，需要decode
+    3: required string AudioUri (api.body="audio_uri") // 音频，mp3格式，需要decode
 }
 
 struct GetChapterDetailResp {

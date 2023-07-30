@@ -3521,7 +3521,7 @@ type GetChapterDetailData struct {
 	Title       string `thrift:"Title,1,required" form:"title,required" json:"title,required"`
 	FrontendUri string `thrift:"FrontendUri,2,required" form:"frontend_uri,required" json:"frontend_uri,required"`
 	// 音频，mp3格式，需要decode
-	AudioUri []byte `thrift:"AudioUri,3,required" form:"audio_uri,required" json:"audio_uri,required"`
+	AudioUri string `thrift:"AudioUri,3,required" form:"audio_uri,required" json:"audio_uri,required"`
 }
 
 func NewGetChapterDetailData() *GetChapterDetailData {
@@ -3536,7 +3536,7 @@ func (p *GetChapterDetailData) GetFrontendUri() (v string) {
 	return p.FrontendUri
 }
 
-func (p *GetChapterDetailData) GetAudioUri() (v []byte) {
+func (p *GetChapterDetailData) GetAudioUri() (v string) {
 	return p.AudioUri
 }
 
@@ -3666,10 +3666,10 @@ func (p *GetChapterDetailData) ReadField2(iprot thrift.TProtocol) error {
 }
 
 func (p *GetChapterDetailData) ReadField3(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadBinary(); err != nil {
+	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.AudioUri = []byte(v)
+		p.AudioUri = v
 	}
 	return nil
 }
@@ -3749,7 +3749,7 @@ func (p *GetChapterDetailData) writeField3(oprot thrift.TProtocol) (err error) {
 	if err = oprot.WriteFieldBegin("AudioUri", thrift.STRING, 3); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteBinary([]byte(p.AudioUri)); err != nil {
+	if err := oprot.WriteString(p.AudioUri); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {

@@ -1,8 +1,8 @@
 namespace go story_telling_backend
 
 struct Pagination {
-    1: required i32 PageSize (api.body="page_size") // 大于0，默认值1
-    2: required i32 PageNo (api.body="page_no") // 大于0，默认值10
+    1: required i32 PageSize (api.body="page_size") // 大于0，默认值10
+    2: required i32 PageNo (api.body="page_no") // 大于0，默认值1
 }
 
 struct SearchNovelReq {
@@ -39,8 +39,8 @@ struct GetNovelDetailResp {
 
 struct GetNovelChapterTitleListReq {
     1: required string NovelID (api.path="novel_id")
-    2: required i32 PageSize (api.body="page_size") // 大于0，默认值1
-    3: required i32 PageNo (api.body="page_no") // 大于0，默认值10
+    2: required i32 PageSize (api.query="page_size") // 大于0，默认值10
+    3: required i32 PageNo (api.query="page_no") // 大于0，默认值1
 }
 
 struct GetNovelChapterTitleItem {
@@ -97,9 +97,9 @@ struct GetChapterDetailResp {
 service NovelBackendService {
     // novel
     SearchNovelResp SearchNovel(1: SearchNovelReq request) (api.post="/story_telling/api/v1/novel/search");
-    GetNovelDetailResp GetNovelDetail(1: GetNovelDetailReq request) (api.get="/story_telling/api/v1/novel/detailvel_id");
-    GetNovelTellingConfigResp GetNovelTellingConfig(1: GetNovelTellingConfigReq request) (api.get="/story_telling/api/v1/telling/configvel_id");
+    GetNovelDetailResp GetNovelDetail(1: GetNovelDetailReq request) (api.get="/story_telling/api/v1/novel/detail/:novel_id");
+    GetNovelTellingConfigResp GetNovelTellingConfig(1: GetNovelTellingConfigReq request) (api.get="/story_telling/api/v1/telling/config/:novel_id");
     // chapter
-    GetNovelChapterTitleListResp GetNovelChapterTitle(1: GetNovelChapterTitleListReq request) (api.get="/story_telling/api/v1/chapter/title_listvel_id");
-    GetChapterDetailResp GetChapterDetail(1: GetChapterDetailReq request) (api.get="/story_telling/api/v1/chapter/detailvel_id/:chapter_id");
+    GetNovelChapterTitleListResp GetNovelChapterTitle(1: GetNovelChapterTitleListReq request) (api.get="/story_telling/api/v1/chapter/title_list/:novel_id");
+    GetChapterDetailResp GetChapterDetail(1: GetChapterDetailReq request) (api.get="/story_telling/api/v1/chapter/detail/:novel_id/:chapter_id");
 }

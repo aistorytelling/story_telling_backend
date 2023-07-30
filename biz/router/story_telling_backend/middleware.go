@@ -70,3 +70,28 @@ func _getnoveltellingconfigMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _detailMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _novel_idMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _title_listMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _detail0Mw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _configMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

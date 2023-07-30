@@ -21,8 +21,8 @@ func (BookTable) TableName() string {
 
 type ChapterTable struct {
 	ID           *uint64    `gorm:"primaryKey" json:"id"`
-	ChapterInd   *int8      `json:"chapter_ind"`
-	ChapterTitle *int64     `json:"chapter_title"`
+	ChapterInd   *int16     `json:"chapter_ind"`
+	ChapterTitle *string    `json:"chapter_title"`
 	BookID       *int64     `json:"book_id"`
 	TxtURI       *string    `json:"txt_uri"`
 	TxtStatus    *int8      `json:"txt_status"`

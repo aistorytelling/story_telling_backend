@@ -43,7 +43,7 @@ func GetChapterTitles(req *story_telling_backend.GetNovelChapterTitleListReq) (*
 func GetChapterDetail(req *story_telling_backend.GetChapterDetailReq) (*story_telling_backend.GetChapterDetailData, error) {
 	dbClient := db.GetDBClient()
 	query := dbClient.Model(&db_model.ChapterTable{})
-	query = query.Where("book_id = ? and chapter_id = ?", req.NovelID, req.ChapterID)
+	query = query.Where("book_id = ? and id = ?", req.NovelID, req.ChapterID)
 
 	var chapter db_model.ChapterTable
 	if err := query.First(&chapter).Error; err != nil {
@@ -52,8 +52,8 @@ func GetChapterDetail(req *story_telling_backend.GetChapterDetailReq) (*story_te
 
 	data := &story_telling_backend.GetChapterDetailData{
 		Title:       conve.StringDefault(chapter.ChapterTitle, ""),
-		FrontendUri: viper.GetString("file_host") + conve.StringDefault(chapter.TxtURI, ""),
-		AudioUri:    viper.GetString("file_host") + conve.StringDefault(chapter.AudioURI, ""),
+		FrontendUri: viper.GetString("chapter.file_host") + conve.StringDefault(chapter.TxtURI, ""),
+		AudioUri:    viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioURI, ""),
 	}
 	return data, nil
 }

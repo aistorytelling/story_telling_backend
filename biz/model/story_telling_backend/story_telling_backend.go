@@ -9,9 +9,9 @@ import (
 )
 
 type Pagination struct {
-	// 大于0，默认值1
-	PageSize int32 `thrift:"PageSize,1,required" form:"page_size,required" json:"page_size,required"`
 	// 大于0，默认值10
+	PageSize int32 `thrift:"PageSize,1,required" form:"page_size,required" json:"page_size,required"`
+	// 大于0，默认值1
 	PageNo int32 `thrift:"PageNo,2,required" form:"page_no,required" json:"page_no,required"`
 }
 
@@ -1585,10 +1585,10 @@ func (p *GetNovelDetailResp) String() string {
 
 type GetNovelChapterTitleListReq struct {
 	NovelID string `thrift:"NovelID,1,required" json:"NovelID,required" path:"novel_id,required"`
-	// 大于0，默认值1
-	PageSize int32 `thrift:"PageSize,2,required" form:"page_size,required" json:"page_size,required"`
 	// 大于0，默认值10
-	PageNo int32 `thrift:"PageNo,3,required" form:"page_no,required" json:"page_no,required"`
+	PageSize int32 `thrift:"PageSize,2,required" json:"PageSize,required" query:"page_size,required"`
+	// 大于0，默认值1
+	PageNo int32 `thrift:"PageNo,3,required" json:"PageNo,required" query:"page_no,required"`
 }
 
 func NewGetNovelChapterTitleListReq() *GetNovelChapterTitleListReq {

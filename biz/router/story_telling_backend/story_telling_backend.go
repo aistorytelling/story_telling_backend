@@ -25,20 +25,32 @@ func Register(r *server.Hertz) {
 				_v1 := _api.Group("/v1", _v1Mw()...)
 				{
 					_chapter := _v1.Group("/chapter", _chapterMw()...)
-					_chapter.GET("/title_listvel_id", append(_getnovelchaptertitleMw(), story_telling_backend.GetNovelChapterTitle)...)
 					{
-						_detailvel_id := _chapter.Group("/detailvel_id", _detailvel_idMw()...)
-						_detailvel_id.GET("/:chapter_id", append(_getchapterdetailMw(), story_telling_backend.GetChapterDetail)...)
+						_detail := _chapter.Group("/detail", _detailMw()...)
+						{
+							_novel_id := _detail.Group("/:novel_id", _novel_idMw()...)
+							_novel_id.GET("/:chapter_id", append(_getchapterdetailMw(), story_telling_backend.GetChapterDetail)...)
+						}
+					}
+					{
+						_title_list := _chapter.Group("/title_list", _title_listMw()...)
+						_title_list.GET("/:novel_id", append(_getnovelchaptertitleMw(), story_telling_backend.GetNovelChapterTitle)...)
 					}
 				}
 				{
 					_novel := _v1.Group("/novel", _novelMw()...)
-					_novel.GET("/detailvel_id", append(_getnoveldetailMw(), story_telling_backend.GetNovelDetail)...)
 					_novel.POST("/search", append(_searchnovelMw(), story_telling_backend.SearchNovel)...)
+					{
+						_detail0 := _novel.Group("/detail", _detail0Mw()...)
+						_detail0.GET("/:novel_id", append(_getnoveldetailMw(), story_telling_backend.GetNovelDetail)...)
+					}
 				}
 				{
 					_telling := _v1.Group("/telling", _tellingMw()...)
-					_telling.GET("/configvel_id", append(_getnoveltellingconfigMw(), story_telling_backend.GetNovelTellingConfig)...)
+					{
+						_config := _telling.Group("/config", _configMw()...)
+						_config.GET("/:novel_id", append(_getnoveltellingconfigMw(), story_telling_backend.GetNovelTellingConfig)...)
+					}
 				}
 			}
 		}

@@ -9,6 +9,7 @@ import (
 )
 
 type GetNovelTagsReq struct {
+	// 不传则获取所有的tags枚举
 	NovelID *int64 `thrift:"NovelID,1,optional" json:"NovelID,omitempty" path:"novel_id"`
 }
 

@@ -40,7 +40,7 @@ func Register(r *server.Hertz) {
 				{
 					_novel := _v1.Group("/novel", _novelMw()...)
 					_novel.POST("/search", append(_searchnovelMw(), story_telling_backend.SearchNovel)...)
-					_novel.POST("/tags", append(_getnoveltagsMw(), story_telling_backend.GetNovelTags)...)
+					_novel.GET("/tags", append(_getnoveltagsMw(), story_telling_backend.GetNovelTags)...)
 					{
 						_detail0 := _novel.Group("/detail", _detail0Mw()...)
 						_detail0.GET("/:novel_id", append(_getnoveldetailMw(), story_telling_backend.GetNovelDetail)...)

@@ -110,7 +110,7 @@ struct GetChapterDetailResp {
 
 service NovelBackendService {
     // novel
-    GetNovelTagsResp GetNovelTags(1: GetNovelTagsReq request) (api.post="/story_telling/api/v1/novel/tags");
+    GetNovelTagsResp GetNovelTags(1: GetNovelTagsReq request) (api.get="/story_telling/api/v1/novel/tags");
     SearchNovelResp SearchNovel(1: SearchNovelReq request) (api.post="/story_telling/api/v1/novel/search");
     GetNovelDetailResp GetNovelDetail(1: GetNovelDetailReq request) (api.get="/story_telling/api/v1/novel/detail/:novel_id");
     GetNovelTellingConfigResp GetNovelTellingConfig(1: GetNovelTellingConfigReq request) (api.get="/story_telling/api/v1/telling/config/:novel_id");

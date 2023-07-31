@@ -95,3 +95,8 @@ func _configMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _getnoveltagsMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

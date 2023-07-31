@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	mapset "github.com/deckarep/golang-set/v2"
 	"github.com/huqiyii/facility/conve"
 	jsoniter "github.com/json-iterator/go"
 	"story_telling_backend/biz/db"
@@ -52,6 +53,32 @@ func SearchNovel(req *story_telling_backend.SearchNovelReq) (*story_telling_back
 			return nil, err
 		}
 		data.Items = append(data.Items, item)
+	}
+	return data, nil
+}
+
+func GetNovelTags(req *story_telling_backend.GetNovelTagsReq) (*story_telling_backend.GetNovelTagsData, error) {
+	dbClient := db.GetDBClient()
+	query := dbClient.Model(&db_model.BookTable{})
+	if req.NovelID != nil {
+		query = query.Where("id LIKE ?", conve.Int64Default(req.NovelID, 0))
+	}
+	var novels []db_model.BookTable
+	if err := query.Find(&novels).Error; err != nil {
+		return nil, err
+	}
+
+	tagSet := mapset.NewSet[string]()
+	for _, novel := range novels {
+		tags := make([]string, 0)
+		if err := jsoniter.UnmarshalFromString(conve.StringDefault(novel.Tags, ""), &tags); err != nil {
+			return nil, err
+		}
+		tagSet.Append(tags...)
+	}
+
+	data := &story_telling_backend.GetNovelTagsData{
+		Tags: tagSet.ToSlice(),
 	}
 	return data, nil
 }

@@ -1,5 +1,19 @@
 namespace go story_telling_backend
 
+struct GetNovelTagsReq {
+    1: optional i64 NovelID (api.path="novel_id") // 不传则获取所有的tags枚举
+}
+
+struct GetNovelTagsData {
+    1: required list<string> Tags (api.path="tags")
+}
+
+struct GetNovelTagsResp {
+    1: required i32 Code (api.body="code")
+    2: required string Message (api.body="message")
+    3: optional GetNovelTagsData Data (api.body="data")
+}
+
 struct Pagination {
     1: required i32 PageSize (api.body="page_size") // 大于0，默认值10
     2: required i32 PageNo (api.body="page_no") // 大于0，默认值1
@@ -38,7 +52,7 @@ struct GetNovelDetailResp {
 }
 
 struct GetNovelChapterTitleListReq {
-    1: required string NovelID (api.path="novel_id")
+    1: required i64 NovelID (api.path="novel_id")
     2: required i32 PageSize (api.query="page_size") // 大于0，默认值10
     3: required i32 PageNo (api.query="page_no") // 大于0，默认值1
 }
@@ -61,7 +75,7 @@ struct GetNovelChapterTitleListResp {
 }
 
 struct GetNovelTellingConfigReq {
-    1: required string NovelID (api.path="novel_id")
+    1: required i64 NovelID (api.path="novel_id")
 }
 
 struct GetNovelTellingConfigData { // 这里应该枚举，枚举值待定
@@ -76,7 +90,7 @@ struct GetNovelTellingConfigResp {
 }
 
 struct GetChapterDetailReq {
-    1: required string NovelID (api.path="novel_id")
+    1: required i64 NovelID (api.path="novel_id")
     2: required string ChapterID (api.path="chapter_id")
     3: optional string Style (api.quest="style") // 风格, 不传或错误值使用默认值
     4: optional string Timbre (api.quest="timbre") // 音色， 不传或错误值使用默认值
@@ -96,6 +110,7 @@ struct GetChapterDetailResp {
 
 service NovelBackendService {
     // novel
+    GetNovelTagsResp GetNovelTags(1: GetNovelTagsReq request) (api.post="/story_telling/api/v1/novel/tags");
     SearchNovelResp SearchNovel(1: SearchNovelReq request) (api.post="/story_telling/api/v1/novel/search");
     GetNovelDetailResp GetNovelDetail(1: GetNovelDetailReq request) (api.get="/story_telling/api/v1/novel/detail/:novel_id");
     GetNovelTellingConfigResp GetNovelTellingConfig(1: GetNovelTellingConfigReq request) (api.get="/story_telling/api/v1/telling/config/:novel_id");

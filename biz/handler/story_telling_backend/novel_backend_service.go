@@ -114,7 +114,32 @@ func GetChapterDetail(ctx context.Context, c *app.RequestContext) {
 
 	if resp.Data, err = service.GetChapterDetail(&req); err != nil {
 		log.WithFields(log.Fields{
-			"interface": "GetNovelChapterTitle",
+			"interface": "GetChapterDetail",
+			"err":       err.Error(),
+		}).Error("请求失败")
+		c.String(consts.StatusOK, "请求失败")
+		return
+	}
+
+	c.JSON(consts.StatusOK, resp)
+}
+
+// GetNovelTags .
+// @router /story_telling/api/v1/novel/tags [POST]
+func GetNovelTags(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req story_telling_backend.GetNovelTagsReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(story_telling_backend.GetNovelTagsResp)
+
+	if resp.Data, err = service.GetNovelTags(&req); err != nil {
+		log.WithFields(log.Fields{
+			"interface": "GetNovelTags",
 			"err":       err.Error(),
 		}).Error("请求失败")
 		c.String(consts.StatusOK, "请求失败")

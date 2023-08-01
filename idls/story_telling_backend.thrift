@@ -21,7 +21,7 @@ struct Pagination {
 
 struct SearchNovelReq {
     1: optional string CustomValue (api.body="custom_value") // 非必填，不传不用于筛选
-    2: optional list<string> Tags (api.body="labels") // 非必填，不传或长度为空不用于筛选
+    2: optional list<string> Tags (api.body="tags") // 非必填，不传或长度为空不用于筛选
     3: optional Pagination pagination (api.body="pagination")
 }
 
@@ -100,6 +100,8 @@ struct GetChapterDetailData {
     1: required string Title (api.body="title") // 章节标题
     2: required string FrontendUri (api.body="frontend_uri")
     3: required string AudioUri (api.body="audio_uri") // 音频，mp3格式，需要decode
+    4: required i64 AudioDuration (api.body="audio_duration") // 音频时长
+    5: required string TextUri (api.body="text_uri") // 文本地址
 }
 
 struct GetChapterDetailResp {

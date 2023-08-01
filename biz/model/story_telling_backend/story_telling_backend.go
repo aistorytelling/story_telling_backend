@@ -781,7 +781,7 @@ type SearchNovelReq struct {
 	// 非必填，不传不用于筛选
 	CustomValue *string `thrift:"CustomValue,1,optional" form:"custom_value" json:"custom_value,omitempty"`
 	// 非必填，不传或长度为空不用于筛选
-	Tags       []string    `thrift:"Tags,2,optional" form:"labels" json:"labels,omitempty"`
+	Tags       []string    `thrift:"Tags,2,optional" form:"tags" json:"tags,omitempty"`
 	Pagination *Pagination `thrift:"pagination,3,optional" form:"pagination" json:"pagination,omitempty"`
 }
 
@@ -4091,6 +4091,10 @@ type GetChapterDetailData struct {
 	FrontendUri string `thrift:"FrontendUri,2,required" form:"frontend_uri,required" json:"frontend_uri,required"`
 	// 音频，mp3格式，需要decode
 	AudioUri string `thrift:"AudioUri,3,required" form:"audio_uri,required" json:"audio_uri,required"`
+	// 音频时长
+	AudioDuration int64 `thrift:"AudioDuration,4,required" form:"audio_duration,required" json:"audio_duration,required"`
+	// 文本地址
+	TextUri string `thrift:"TextUri,5,required" form:"text_uri,required" json:"text_uri,required"`
 }
 
 func NewGetChapterDetailData() *GetChapterDetailData {
@@ -4109,10 +4113,20 @@ func (p *GetChapterDetailData) GetAudioUri() (v string) {
 	return p.AudioUri
 }
 
+func (p *GetChapterDetailData) GetAudioDuration() (v int64) {
+	return p.AudioDuration
+}
+
+func (p *GetChapterDetailData) GetTextUri() (v string) {
+	return p.TextUri
+}
+
 var fieldIDToName_GetChapterDetailData = map[int16]string{
 	1: "Title",
 	2: "FrontendUri",
 	3: "AudioUri",
+	4: "AudioDuration",
+	5: "TextUri",
 }
 
 func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
@@ -4122,6 +4136,8 @@ func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
 	var issetTitle bool = false
 	var issetFrontendUri bool = false
 	var issetAudioUri bool = false
+	var issetAudioDuration bool = false
+	var issetTextUri bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
 		goto ReadStructBeginError
@@ -4170,6 +4186,28 @@ func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
 					goto SkipFieldError
 				}
 			}
+		case 4:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField4(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetAudioDuration = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 5:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField5(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetTextUri = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
 		default:
 			if err = iprot.Skip(fieldTypeId); err != nil {
 				goto SkipFieldError
@@ -4196,6 +4234,16 @@ func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
 
 	if !issetAudioUri {
 		fieldId = 3
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetAudioDuration {
+		fieldId = 4
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetTextUri {
+		fieldId = 5
 		goto RequiredFieldNotSetError
 	}
 	return nil
@@ -4243,6 +4291,24 @@ func (p *GetChapterDetailData) ReadField3(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *GetChapterDetailData) ReadField4(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		p.AudioDuration = v
+	}
+	return nil
+}
+
+func (p *GetChapterDetailData) ReadField5(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.TextUri = v
+	}
+	return nil
+}
+
 func (p *GetChapterDetailData) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	if err = oprot.WriteStructBegin("GetChapterDetailData"); err != nil {
@@ -4259,6 +4325,14 @@ func (p *GetChapterDetailData) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField3(oprot); err != nil {
 			fieldId = 3
+			goto WriteFieldError
+		}
+		if err = p.writeField4(oprot); err != nil {
+			fieldId = 4
+			goto WriteFieldError
+		}
+		if err = p.writeField5(oprot); err != nil {
+			fieldId = 5
 			goto WriteFieldError
 		}
 
@@ -4329,6 +4403,40 @@ WriteFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
 WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
+}
+
+func (p *GetChapterDetailData) writeField4(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("AudioDuration", thrift.I64, 4); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.AudioDuration); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
+}
+
+func (p *GetChapterDetailData) writeField5(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("TextUri", thrift.STRING, 5); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.TextUri); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 5 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 5 end error: ", p), err)
 }
 
 func (p *GetChapterDetailData) String() string {

@@ -12,17 +12,13 @@ import (
 )
 
 func SearchNovel(req *story_telling_backend.SearchNovelReq) (*story_telling_backend.SearchNovelData, error) {
-	dbClient := db.GetDBClient()
+	dbClient := db.GetDBClient().Debug()
 	query := dbClient.Model(&db_model.BookTable{})
 	if req.CustomValue != nil {
 		query = query.Where("name LIKE ?", fmt.Sprintf("%%%s%%", *req.CustomValue))
 	}
 	if len(req.Tags) > 0 {
-		subConditions := dbClient.Model(&db_model.BookTable{})
-		for _, tag := range req.Tags {
-			subConditions = subConditions.Or("JSON_CONTAINS(tags, ?)", tag)
-		}
-		query = query.Where(subConditions)
+		query = query.Where("JSON_CONTAINS(tags, JSON_Array(?))", req.Tags)
 	}
 	var novels []db_model.BookTable
 	var total int64

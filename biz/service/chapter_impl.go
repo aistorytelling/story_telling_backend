@@ -51,9 +51,16 @@ func GetChapterDetail(req *story_telling_backend.GetChapterDetailReq) (*story_te
 	}
 
 	data := &story_telling_backend.GetChapterDetailData{
-		Title:       conve.StringDefault(chapter.ChapterTitle, ""),
-		FrontendUri: viper.GetString("chapter.file_host") + conve.StringDefault(chapter.TxtURI, ""),
-		AudioUri:    viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioURI, ""),
+		Title:         conve.StringDefault(chapter.ChapterTitle, ""),
+		TextUri:       conve.StringDefault(chapter.TxtURI, ""),
+		AudioDuration: conve.Int64Default(chapter.AudioMaleLength, 0),
+		AudioUri:      viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioMaleURI, ""),
+		FrontendUri:   viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioMaleFronted, ""),
+	}
+	if conve.StringDefault(req.Timbre, "male") == "female" {
+		data.AudioDuration = conve.Int64Default(chapter.AudioFemaleLength, 0)
+		data.AudioUri = viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioFemaleURI, "")
+		data.FrontendUri = viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioFemaleFronted, "")
 	}
 	return data, nil
 }

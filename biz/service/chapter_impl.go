@@ -53,7 +53,7 @@ func GetChapterDetail(req *story_telling_backend.GetChapterDetailReq) (*story_te
 	var err error
 	data := &story_telling_backend.GetChapterDetailData{
 		Title:   conve.StringDefault(chapter.ChapterTitle, ""),
-		TextUri: conve.StringDefault(chapter.TxtURI, ""),
+		TextUri: viper.GetString("chapter.file_host") + conve.StringDefault(chapter.TxtURI, ""),
 	}
 	if data.AudioUri, err = json2StringSlice(conve.StringDefault(chapter.AudioMaleURI, ""), viper.GetString("chapter.file_host")); err != nil {
 		return nil, err

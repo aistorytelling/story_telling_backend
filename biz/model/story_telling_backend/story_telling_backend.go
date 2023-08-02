@@ -3775,9 +3775,9 @@ type GetChapterDetailReq struct {
 	NovelID   int64 `thrift:"NovelID,1,required" json:"NovelID,required" path:"novel_id,required"`
 	ChapterID int64 `thrift:"ChapterID,2,required" json:"ChapterID,required" path:"chapter_id,required"`
 	// 风格, 不传或错误值使用默认值
-	Style *string `thrift:"Style,3,optional" form:"Style" json:"Style,omitempty" query:"Style"`
+	Style *string `thrift:"Style,3,optional" json:"Style,omitempty" query:"style"`
 	// 音色， 不传或错误值使用默认值
-	Timbre *string `thrift:"Timbre,4,optional" form:"Timbre" json:"Timbre,omitempty" query:"Timbre"`
+	Timbre *string `thrift:"Timbre,4,optional" json:"Timbre,omitempty" query:"timbre"`
 }
 
 func NewGetChapterDetailReq() *GetChapterDetailReq {

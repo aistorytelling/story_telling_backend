@@ -6,7 +6,7 @@ require (
 	github.com/apache/thrift v0.13.0
 	github.com/cloudwego/hertz v0.6.6
 	github.com/deckarep/golang-set/v2 v2.3.0
-	github.com/huqiyii/facility v0.0.0-20230802143845-010df4d3d181
+	github.com/huqiyii/facility v0.0.0-20230802155305-4507ff2af945
 	github.com/json-iterator/go v1.1.12
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.16.0

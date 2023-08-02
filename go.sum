@@ -163,6 +163,8 @@ github.com/henrylee2cn/goutil v0.0.0-20210127050712-89660552f6f8 h1:yE9ULgp02BhY
 github.com/henrylee2cn/goutil v0.0.0-20210127050712-89660552f6f8/go.mod h1:Nhe/DM3671a5udlv2AdV2ni/MZzgfv2qrPL5nIi3EGQ=
 github.com/huqiyii/facility v0.0.0-20230802143845-010df4d3d181 h1:1gTNFoZSQpB1yBM+ZX37uvE9A9FMeQuc4MXJmWebSas=
 github.com/huqiyii/facility v0.0.0-20230802143845-010df4d3d181/go.mod h1:eCEwrh0LHqq6F/h+LvYtgdV17hnosdYW6K9U2LgQY00=
+github.com/huqiyii/facility v0.0.0-20230802155305-4507ff2af945 h1:9aMJ4/d2GaWpiKKMLhwZAakfZVf1jU9LGq4/2TTO1j8=
+github.com/huqiyii/facility v0.0.0-20230802155305-4507ff2af945/go.mod h1:eCEwrh0LHqq6F/h+LvYtgdV17hnosdYW6K9U2LgQY00=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/ianlancetaylor/demangle v0.0.0-20200824232613-28f6c0f3b639/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/jinzhu/inflection v1.0.0 h1:K317FqzuhWc8YvSVlFMCCUb36O/S9MCKRDI7QkRKD/E=

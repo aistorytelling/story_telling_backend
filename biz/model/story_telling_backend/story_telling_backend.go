@@ -4087,12 +4087,12 @@ func (p *GetChapterDetailReq) String() string {
 
 type GetChapterDetailData struct {
 	// 章节标题
-	Title       string `thrift:"Title,1,required" form:"title,required" json:"title,required"`
-	FrontendUri string `thrift:"FrontendUri,2,required" form:"frontend_uri,required" json:"frontend_uri,required"`
+	Title       string   `thrift:"Title,1,required" form:"title,required" json:"title,required"`
+	FrontendUri []string `thrift:"FrontendUri,2,required" form:"frontend_uri,required" json:"frontend_uri,required"`
 	// 音频，mp3格式，需要decode
-	AudioUri string `thrift:"AudioUri,3,required" form:"audio_uri,required" json:"audio_uri,required"`
+	AudioUri []string `thrift:"AudioUri,3,required" form:"audio_uri,required" json:"audio_uri,required"`
 	// 音频时长
-	AudioDuration int64 `thrift:"AudioDuration,4,required" form:"audio_duration,required" json:"audio_duration,required"`
+	AudioDuration []int64 `thrift:"AudioDuration,4,required" form:"audio_duration,required" json:"audio_duration,required"`
 	// 文本地址
 	TextUri string `thrift:"TextUri,5,required" form:"text_uri,required" json:"text_uri,required"`
 }
@@ -4105,15 +4105,15 @@ func (p *GetChapterDetailData) GetTitle() (v string) {
 	return p.Title
 }
 
-func (p *GetChapterDetailData) GetFrontendUri() (v string) {
+func (p *GetChapterDetailData) GetFrontendUri() (v []string) {
 	return p.FrontendUri
 }
 
-func (p *GetChapterDetailData) GetAudioUri() (v string) {
+func (p *GetChapterDetailData) GetAudioUri() (v []string) {
 	return p.AudioUri
 }
 
-func (p *GetChapterDetailData) GetAudioDuration() (v int64) {
+func (p *GetChapterDetailData) GetAudioDuration() (v []int64) {
 	return p.AudioDuration
 }
 
@@ -4165,7 +4165,7 @@ func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
 				}
 			}
 		case 2:
-			if fieldTypeId == thrift.STRING {
+			if fieldTypeId == thrift.LIST {
 				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -4176,7 +4176,7 @@ func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
 				}
 			}
 		case 3:
-			if fieldTypeId == thrift.STRING {
+			if fieldTypeId == thrift.LIST {
 				if err = p.ReadField3(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -4187,7 +4187,7 @@ func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
 				}
 			}
 		case 4:
-			if fieldTypeId == thrift.I64 {
+			if fieldTypeId == thrift.LIST {
 				if err = p.ReadField4(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -4274,28 +4274,67 @@ func (p *GetChapterDetailData) ReadField1(iprot thrift.TProtocol) error {
 }
 
 func (p *GetChapterDetailData) ReadField2(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadString(); err != nil {
+	_, size, err := iprot.ReadListBegin()
+	if err != nil {
 		return err
-	} else {
-		p.FrontendUri = v
+	}
+	p.FrontendUri = make([]string, 0, size)
+	for i := 0; i < size; i++ {
+		var _elem string
+		if v, err := iprot.ReadString(); err != nil {
+			return err
+		} else {
+			_elem = v
+		}
+
+		p.FrontendUri = append(p.FrontendUri, _elem)
+	}
+	if err := iprot.ReadListEnd(); err != nil {
+		return err
 	}
 	return nil
 }
 
 func (p *GetChapterDetailData) ReadField3(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadString(); err != nil {
+	_, size, err := iprot.ReadListBegin()
+	if err != nil {
 		return err
-	} else {
-		p.AudioUri = v
+	}
+	p.AudioUri = make([]string, 0, size)
+	for i := 0; i < size; i++ {
+		var _elem string
+		if v, err := iprot.ReadString(); err != nil {
+			return err
+		} else {
+			_elem = v
+		}
+
+		p.AudioUri = append(p.AudioUri, _elem)
+	}
+	if err := iprot.ReadListEnd(); err != nil {
+		return err
 	}
 	return nil
 }
 
 func (p *GetChapterDetailData) ReadField4(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadI64(); err != nil {
+	_, size, err := iprot.ReadListBegin()
+	if err != nil {
 		return err
-	} else {
-		p.AudioDuration = v
+	}
+	p.AudioDuration = make([]int64, 0, size)
+	for i := 0; i < size; i++ {
+		var _elem int64
+		if v, err := iprot.ReadI64(); err != nil {
+			return err
+		} else {
+			_elem = v
+		}
+
+		p.AudioDuration = append(p.AudioDuration, _elem)
+	}
+	if err := iprot.ReadListEnd(); err != nil {
+		return err
 	}
 	return nil
 }
@@ -4372,10 +4411,18 @@ WriteFieldEndError:
 }
 
 func (p *GetChapterDetailData) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("FrontendUri", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("FrontendUri", thrift.LIST, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.FrontendUri); err != nil {
+	if err := oprot.WriteListBegin(thrift.STRING, len(p.FrontendUri)); err != nil {
+		return err
+	}
+	for _, v := range p.FrontendUri {
+		if err := oprot.WriteString(v); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteListEnd(); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -4389,10 +4436,18 @@ WriteFieldEndError:
 }
 
 func (p *GetChapterDetailData) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("AudioUri", thrift.STRING, 3); err != nil {
+	if err = oprot.WriteFieldBegin("AudioUri", thrift.LIST, 3); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.AudioUri); err != nil {
+	if err := oprot.WriteListBegin(thrift.STRING, len(p.AudioUri)); err != nil {
+		return err
+	}
+	for _, v := range p.AudioUri {
+		if err := oprot.WriteString(v); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteListEnd(); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -4406,10 +4461,18 @@ WriteFieldEndError:
 }
 
 func (p *GetChapterDetailData) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("AudioDuration", thrift.I64, 4); err != nil {
+	if err = oprot.WriteFieldBegin("AudioDuration", thrift.LIST, 4); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.AudioDuration); err != nil {
+	if err := oprot.WriteListBegin(thrift.I64, len(p.AudioDuration)); err != nil {
+		return err
+	}
+	for _, v := range p.AudioDuration {
+		if err := oprot.WriteI64(v); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteListEnd(); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {

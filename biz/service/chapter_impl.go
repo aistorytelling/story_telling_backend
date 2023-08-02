@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/huqiyii/facility/conve"
+	jsoniter "github.com/json-iterator/go"
 	"github.com/spf13/viper"
 	"story_telling_backend/biz/db"
 	"story_telling_backend/biz/model/db_model"
@@ -49,18 +50,50 @@ func GetChapterDetail(req *story_telling_backend.GetChapterDetailReq) (*story_te
 	if err := query.First(&chapter).Error; err != nil {
 		return nil, err
 	}
-
+	var err error
 	data := &story_telling_backend.GetChapterDetailData{
-		Title:         conve.StringDefault(chapter.ChapterTitle, ""),
-		TextUri:       conve.StringDefault(chapter.TxtURI, ""),
-		AudioDuration: conve.Int64Default(chapter.AudioMaleLength, 0),
-		AudioUri:      viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioMaleURI, ""),
-		FrontendUri:   viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioMaleFronted, ""),
+		Title:   conve.StringDefault(chapter.ChapterTitle, ""),
+		TextUri: conve.StringDefault(chapter.TxtURI, ""),
 	}
+	if data.AudioUri, err = json2StringSlice(conve.StringDefault(chapter.AudioMaleURI, ""), viper.GetString("chapter.file_host")); err != nil {
+		return nil, err
+	}
+	if data.FrontendUri, err = json2StringSlice(conve.StringDefault(chapter.AudioMaleFronted, ""), viper.GetString("chapter.file_host")); err != nil {
+		return nil, err
+	}
+	if data.AudioDuration, err = json2Int64Slice(conve.StringDefault(chapter.AudioMaleLength, "")); err != nil {
+		return nil, err
+	}
+
 	if conve.StringDefault(req.Timbre, "male") == "female" {
-		data.AudioDuration = conve.Int64Default(chapter.AudioFemaleLength, 0)
-		data.AudioUri = viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioFemaleURI, "")
-		data.FrontendUri = viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioFemaleFronted, "")
+		if data.AudioUri, err = json2StringSlice(conve.StringDefault(chapter.AudioFemaleURI, ""), viper.GetString("chapter.file_host")); err != nil {
+			return nil, err
+		}
+		if data.FrontendUri, err = json2StringSlice(conve.StringDefault(chapter.AudioFemaleFronted, ""), viper.GetString("chapter.file_host")); err != nil {
+			return nil, err
+		}
+		if data.AudioDuration, err = json2Int64Slice(conve.StringDefault(chapter.AudioFemaleLength, "")); err != nil {
+			return nil, err
+		}
 	}
 	return data, nil
+}
+
+func json2StringSlice(s string, prefix string) ([]string, error) {
+	var result []string
+	if err := jsoniter.UnmarshalFromString(s, &result); err != nil {
+		return nil, err
+	}
+	for i, _ := range result {
+		result[i] = prefix + result[i]
+	}
+	return result, nil
+}
+
+func json2Int64Slice(s string) ([]int64, error) {
+	var result []int64
+	if err := jsoniter.UnmarshalFromString(s, &result); err != nil {
+		return nil, err
+	}
+	return result, nil
 }

@@ -91,7 +91,7 @@ struct GetNovelTellingConfigResp {
 
 struct GetChapterDetailReq {
     1: required i64 NovelID (api.path="novel_id")
-    2: required string ChapterID (api.path="chapter_id")
+    2: required i64 ChapterID (api.path="chapter_id")
     3: optional string Style (api.quest="style") // 风格, 不传或错误值使用默认值
     4: optional string Timbre (api.quest="timbre") // 音色， 不传或错误值使用默认值
 }

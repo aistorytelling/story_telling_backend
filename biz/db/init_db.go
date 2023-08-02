@@ -26,7 +26,7 @@ func GetDBClient() *gorm.DB {
 }
 
 func connectDB() (*gorm.DB, error) {
-	dsn := "new_user:123456@tcp(43.136.30.125:3306)/aistory_audio?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:Rewq321.@tcp(43.136.30.125:3306)/ai_audio?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, err

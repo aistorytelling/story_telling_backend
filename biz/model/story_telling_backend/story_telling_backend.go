@@ -3772,8 +3772,8 @@ func (p *GetNovelTellingConfigResp) String() string {
 }
 
 type GetChapterDetailReq struct {
-	NovelID   int64  `thrift:"NovelID,1,required" json:"NovelID,required" path:"novel_id,required"`
-	ChapterID string `thrift:"ChapterID,2,required" json:"ChapterID,required" path:"chapter_id,required"`
+	NovelID   int64 `thrift:"NovelID,1,required" json:"NovelID,required" path:"novel_id,required"`
+	ChapterID int64 `thrift:"ChapterID,2,required" json:"ChapterID,required" path:"chapter_id,required"`
 	// 风格, 不传或错误值使用默认值
 	Style *string `thrift:"Style,3,optional" form:"Style" json:"Style,omitempty" query:"Style"`
 	// 音色， 不传或错误值使用默认值
@@ -3788,7 +3788,7 @@ func (p *GetChapterDetailReq) GetNovelID() (v int64) {
 	return p.NovelID
 }
 
-func (p *GetChapterDetailReq) GetChapterID() (v string) {
+func (p *GetChapterDetailReq) GetChapterID() (v int64) {
 	return p.ChapterID
 }
 
@@ -3858,7 +3858,7 @@ func (p *GetChapterDetailReq) Read(iprot thrift.TProtocol) (err error) {
 				}
 			}
 		case 2:
-			if fieldTypeId == thrift.STRING {
+			if fieldTypeId == thrift.I64 {
 				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -3939,7 +3939,7 @@ func (p *GetChapterDetailReq) ReadField1(iprot thrift.TProtocol) error {
 }
 
 func (p *GetChapterDetailReq) ReadField2(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadString(); err != nil {
+	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
 		p.ChapterID = v
@@ -4024,10 +4024,10 @@ WriteFieldEndError:
 }
 
 func (p *GetChapterDetailReq) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("ChapterID", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("ChapterID", thrift.I64, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.ChapterID); err != nil {
+	if err := oprot.WriteI64(p.ChapterID); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {

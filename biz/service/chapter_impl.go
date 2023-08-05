@@ -2,7 +2,6 @@ package service
 
 import (
 	"github.com/huqiyii/facility/conve"
-	"github.com/spf13/viper"
 	"story_telling_backend/biz/db"
 	"story_telling_backend/biz/model/db_model"
 	"story_telling_backend/biz/model/story_telling_backend"
@@ -51,16 +50,16 @@ func GetChapterDetail(req *story_telling_backend.GetChapterDetailReq) (*story_te
 	}
 	data := &story_telling_backend.GetChapterDetailData{
 		Title:         conve.StringDefault(chapter.ChapterTitle, ""),
-		TextUri:       viper.GetString("chapter.file_host") + conve.StringDefault(chapter.TxtURI, ""),
-		AbsUri:        viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AbsURI, ""),
+		TextUri:       conve.StringDefault(chapter.TxtURI, ""),
+		AbsUri:        conve.StringDefault(chapter.AbsURI, ""),
 		AudioDuration: conve.Int64Default(chapter.AudioMaleLength, 0),
-		AudioUri:      viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioMaleURI, ""),
-		FrontendUri:   viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioMaleFronted, ""),
+		AudioUri:      conve.StringDefault(chapter.AudioMaleURI, ""),
+		FrontendUri:   conve.StringDefault(chapter.AudioMaleFronted, ""),
 	}
 	if conve.StringDefault(req.Timbre, "male") == "female" {
 		data.AudioDuration = conve.Int64Default(chapter.AudioFemaleLength, 0)
-		data.AudioUri = viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioFemaleURI, "")
-		data.FrontendUri = viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioFemaleFronted, "")
+		data.AudioUri = conve.StringDefault(chapter.AudioFemaleURI, "")
+		data.FrontendUri = conve.StringDefault(chapter.AudioFemaleFronted, "")
 	}
 	return data, nil
 }

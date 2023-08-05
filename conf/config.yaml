@@ -1,2 +1,4 @@
+mysql:
+  dns: "root:vu2weG2ZJHIUGFxTIhdZ@tcp(containers-us-west-163.railway.app:5648)/ai_audio?charset=utf8mb4&parseTime=True&loc=Local"
 chapter:
   file_host: "http://43.136.30.125:8081"

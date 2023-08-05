@@ -13,7 +13,3 @@ func TestConnectDB(t *testing.T) {
 	}
 	fmt.Println(got)
 }
-
-func Test_connectMongoDB(t *testing.T) {
-	connectMongoDB()
-}

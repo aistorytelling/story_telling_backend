@@ -54,7 +54,7 @@ func GetChapterDetail(req *story_telling_backend.GetChapterDetailReq) (*story_te
 		TextUri:       viper.GetString("chapter.file_host") + conve.StringDefault(chapter.TxtURI, ""),
 		AbsUri:        viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AbsURI, ""),
 		AudioDuration: conve.Int64Default(chapter.AudioMaleLength, 0),
-		AudioUri:      viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioMaleURI, ""),
+		AudioUri:      conve.StringDefault(chapter.AudioMaleURI, ""),
 		FrontendUri:   viper.GetString("chapter.file_host") + conve.StringDefault(chapter.AudioMaleFronted, ""),
 	}
 	if conve.StringDefault(req.Timbre, "male") == "female" {

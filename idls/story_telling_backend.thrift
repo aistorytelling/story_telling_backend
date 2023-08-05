@@ -102,6 +102,7 @@ struct GetChapterDetailData {
     3: required string AudioUri (api.body="audio_uri") // 音频，mp3格式，需要decode
     4: required i64 AudioDuration (api.body="audio_duration") // 音频时长
     5: required string TextUri (api.body="text_uri") // 文本地址
+    6: required string AbsUri (api.body="abs_uri") // ABS地址
 }
 
 struct GetChapterDetailResp {

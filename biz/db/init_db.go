@@ -1,10 +1,14 @@
 package db
 
 import (
+	"context"
 	"fmt"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"sync"
+	"time"
 )
 
 var dbClient *gorm.DB
@@ -32,4 +36,19 @@ func connectDB() (*gorm.DB, error) {
 		return nil, err
 	}
 	return db, nil
+}
+
+func connectMongoDB() {
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
+	if err != nil {
+		fmt.Errorf("client establish failed. err: %v", err)
+	}
+	// ctx
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	// connect
+	if err = client.Connect(ctx); err == nil {
+		fmt.Println("connect to db success.")
+	}
 }

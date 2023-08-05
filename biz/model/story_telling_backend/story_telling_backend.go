@@ -4095,6 +4095,8 @@ type GetChapterDetailData struct {
 	AudioDuration int64 `thrift:"AudioDuration,4,required" form:"audio_duration,required" json:"audio_duration,required"`
 	// 文本地址
 	TextUri string `thrift:"TextUri,5,required" form:"text_uri,required" json:"text_uri,required"`
+	// ABS地址
+	AbsUri string `thrift:"AbsUri,6,required" form:"abs_uri,required" json:"abs_uri,required"`
 }
 
 func NewGetChapterDetailData() *GetChapterDetailData {
@@ -4121,12 +4123,17 @@ func (p *GetChapterDetailData) GetTextUri() (v string) {
 	return p.TextUri
 }
 
+func (p *GetChapterDetailData) GetAbsUri() (v string) {
+	return p.AbsUri
+}
+
 var fieldIDToName_GetChapterDetailData = map[int16]string{
 	1: "Title",
 	2: "FrontendUri",
 	3: "AudioUri",
 	4: "AudioDuration",
 	5: "TextUri",
+	6: "AbsUri",
 }
 
 func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
@@ -4138,6 +4145,7 @@ func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
 	var issetAudioUri bool = false
 	var issetAudioDuration bool = false
 	var issetTextUri bool = false
+	var issetAbsUri bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
 		goto ReadStructBeginError
@@ -4208,6 +4216,17 @@ func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
 					goto SkipFieldError
 				}
 			}
+		case 6:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField6(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetAbsUri = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
 		default:
 			if err = iprot.Skip(fieldTypeId); err != nil {
 				goto SkipFieldError
@@ -4244,6 +4263,11 @@ func (p *GetChapterDetailData) Read(iprot thrift.TProtocol) (err error) {
 
 	if !issetTextUri {
 		fieldId = 5
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetAbsUri {
+		fieldId = 6
 		goto RequiredFieldNotSetError
 	}
 	return nil
@@ -4309,6 +4333,15 @@ func (p *GetChapterDetailData) ReadField5(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *GetChapterDetailData) ReadField6(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.AbsUri = v
+	}
+	return nil
+}
+
 func (p *GetChapterDetailData) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	if err = oprot.WriteStructBegin("GetChapterDetailData"); err != nil {
@@ -4333,6 +4366,10 @@ func (p *GetChapterDetailData) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField5(oprot); err != nil {
 			fieldId = 5
+			goto WriteFieldError
+		}
+		if err = p.writeField6(oprot); err != nil {
+			fieldId = 6
 			goto WriteFieldError
 		}
 
@@ -4437,6 +4474,23 @@ WriteFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 5 begin error: ", p), err)
 WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 5 end error: ", p), err)
+}
+
+func (p *GetChapterDetailData) writeField6(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("AbsUri", thrift.STRING, 6); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.AbsUri); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 6 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 6 end error: ", p), err)
 }
 
 func (p *GetChapterDetailData) String() string {

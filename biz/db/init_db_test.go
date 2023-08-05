@@ -6,10 +6,14 @@ import (
 )
 
 func TestConnectDB(t *testing.T) {
-	got, err := ConnectDB()
+	got, err := connectDB()
 	if err != nil {
 		fmt.Printf("err: %v\n", err)
 		return
 	}
-	fmt.Println(got.)
+	fmt.Println(got)
+}
+
+func Test_connectMongoDB(t *testing.T) {
+	connectMongoDB()
 }

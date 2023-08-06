@@ -13,7 +13,7 @@ import (
 
 func SearchNovel(req *story_telling_backend.SearchNovelReq) (*story_telling_backend.SearchNovelData, error) {
 	dbClient := db.GetDBClient().Debug()
-	query := dbClient.Model(&db_model.BookTable{})
+	query := dbClient.Model(&db_model.BookTable{}).Where("status = 1")
 	if req.CustomValue != nil {
 		query = query.Where("name LIKE ?", fmt.Sprintf("%%%s%%", *req.CustomValue))
 	}

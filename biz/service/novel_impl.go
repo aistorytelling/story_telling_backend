@@ -26,7 +26,7 @@ func SearchNovel(req *story_telling_backend.SearchNovelReq) (*story_telling_back
 		return nil, err
 	}
 	pageNo, pageSize := common.GetPagination(req.GetPagination())
-	if err := query.Offset((pageNo - 1) * pageSize).Limit(pageSize).Find(&novels).Error; err != nil {
+	if err := query.Order("id").Offset((pageNo - 1) * pageSize).Limit(pageSize).Find(&novels).Error; err != nil {
 		return nil, err
 	}
 	data := &story_telling_backend.SearchNovelData{

@@ -1073,7 +1073,8 @@ type SearchNovelItem struct {
 	// 小说标签
 	Tags []string `thrift:"Tags,5,required" form:"tags,required" json:"tags,required"`
 	// 一些七七八八的描述
-	Describes []string `thrift:"Describes,6,required" form:"describes,required" json:"describes,required"`
+	Describes   []string `thrift:"Describes,6,required" form:"describes,required" json:"describes,required"`
+	NovelStatus int16    `thrift:"NovelStatus,7,required" form:",required" json:",required"`
 }
 
 func NewSearchNovelItem() *SearchNovelItem {
@@ -1104,6 +1105,10 @@ func (p *SearchNovelItem) GetDescribes() (v []string) {
 	return p.Describes
 }
 
+func (p *SearchNovelItem) GetNovelStatus() (v int16) {
+	return p.NovelStatus
+}
+
 var fieldIDToName_SearchNovelItem = map[int16]string{
 	1: "ID",
 	2: "CoverUrl",
@@ -1111,6 +1116,7 @@ var fieldIDToName_SearchNovelItem = map[int16]string{
 	4: "AuthorName",
 	5: "Tags",
 	6: "Describes",
+	7: "NovelStatus",
 }
 
 func (p *SearchNovelItem) Read(iprot thrift.TProtocol) (err error) {
@@ -1123,6 +1129,7 @@ func (p *SearchNovelItem) Read(iprot thrift.TProtocol) (err error) {
 	var issetAuthorName bool = false
 	var issetTags bool = false
 	var issetDescribes bool = false
+	var issetNovelStatus bool = false
 
 	if _, err = iprot.ReadStructBegin(); err != nil {
 		goto ReadStructBeginError
@@ -1204,6 +1211,17 @@ func (p *SearchNovelItem) Read(iprot thrift.TProtocol) (err error) {
 					goto SkipFieldError
 				}
 			}
+		case 7:
+			if fieldTypeId == thrift.I16 {
+				if err = p.ReadField7(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetNovelStatus = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
 		default:
 			if err = iprot.Skip(fieldTypeId); err != nil {
 				goto SkipFieldError
@@ -1245,6 +1263,11 @@ func (p *SearchNovelItem) Read(iprot thrift.TProtocol) (err error) {
 
 	if !issetDescribes {
 		fieldId = 6
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetNovelStatus {
+		fieldId = 7
 		goto RequiredFieldNotSetError
 	}
 	return nil
@@ -1345,6 +1368,15 @@ func (p *SearchNovelItem) ReadField6(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *SearchNovelItem) ReadField7(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI16(); err != nil {
+		return err
+	} else {
+		p.NovelStatus = v
+	}
+	return nil
+}
+
 func (p *SearchNovelItem) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
 	if err = oprot.WriteStructBegin("SearchNovelItem"); err != nil {
@@ -1373,6 +1405,10 @@ func (p *SearchNovelItem) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField6(oprot); err != nil {
 			fieldId = 6
+			goto WriteFieldError
+		}
+		if err = p.writeField7(oprot); err != nil {
+			fieldId = 7
 			goto WriteFieldError
 		}
 
@@ -1510,6 +1546,23 @@ WriteFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 6 begin error: ", p), err)
 WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 6 end error: ", p), err)
+}
+
+func (p *SearchNovelItem) writeField7(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("NovelStatus", thrift.I16, 7); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI16(p.NovelStatus); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 7 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 7 end error: ", p), err)
 }
 
 func (p *SearchNovelItem) String() string {

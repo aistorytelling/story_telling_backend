@@ -32,6 +32,7 @@ struct SearchNovelItem {
     4: required string AuthorName (api.body="author_name") // 作者名字
     5: required list<string> Tags (api.body="tags") // 小说标签
     6: required list<string> Describes (api.body="describes") // 一些七七八八的描述
+    7: required i16 NovelStatus (api.body="")
 }
 
 struct SearchNovelData {

@@ -35,12 +35,13 @@ func SearchNovel(req *story_telling_backend.SearchNovelReq) (*story_telling_back
 	}
 	for _, novel := range novels {
 		item := &story_telling_backend.SearchNovelItem{
-			ID:         conve.Int64Default(novel.ID, -1),
-			CoverUrl:   conve.StringDefault(novel.CoverURI, ""),
-			NovelName:  conve.StringDefault(novel.Name, ""),
-			AuthorName: conve.StringDefault(novel.AuthorName, ""),
-			Tags:       make([]string, 0),
-			Describes:  make([]string, 0),
+			ID:          conve.Int64Default(novel.ID, -1),
+			CoverUrl:    conve.StringDefault(novel.CoverURI, ""),
+			NovelName:   conve.StringDefault(novel.Name, ""),
+			AuthorName:  conve.StringDefault(novel.AuthorName, ""),
+			NovelStatus: conve.Int16Default(novel.Status, 0),
+			Tags:        make([]string, 0),
+			Describes:   make([]string, 0),
 		}
 		if err := jsoniter.UnmarshalFromString(conve.StringDefault(novel.Tags, ""), &item.Tags); err != nil {
 			return nil, err

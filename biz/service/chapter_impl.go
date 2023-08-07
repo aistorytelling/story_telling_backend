@@ -19,7 +19,7 @@ func GetChapterTitles(req *story_telling_backend.GetNovelChapterTitleListReq) (*
 		return nil, err
 	}
 	pageNo, pageSize := common.GetPagination(&story_telling_backend.Pagination{PageNo: req.PageNo, PageSize: req.PageSize})
-	if err := query.Order("id").Offset((pageNo - 1) * pageSize).Limit(pageSize).Find(&chapters).Error; err != nil {
+	if err := query.Order("chapter_ind").Offset((pageNo - 1) * pageSize).Limit(pageSize).Find(&chapters).Error; err != nil {
 		return nil, err
 	}
 

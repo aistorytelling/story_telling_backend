@@ -11,7 +11,7 @@ import (
 func GetChapterTitles(req *story_telling_backend.GetNovelChapterTitleListReq) (*story_telling_backend.GetNovelChapterTitleListData, error) {
 	dbClient := db.GetDBClient()
 	query := dbClient.Model(&db_model.ChapterTable{})
-	query = query.Where("book_id = ?", req.NovelID)
+	query = query.Where("book_id = ? and abs_status = 1", req.NovelID)
 
 	var chapters = make([]*db_model.ChapterTable, 0)
 	var total int64
